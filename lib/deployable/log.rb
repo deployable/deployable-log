@@ -18,6 +18,7 @@ module Deployable
 class Logger < Logger
 
   # Add on TRACE to the logger class
+  TRACE = -1
   module Severity;
     TRACE = -1
   end
@@ -26,6 +27,7 @@ class Logger < Logger
     add( TRACE, nil, progname, &block )
   end
   def trace?; @level <= TRACE; end
+
 
 
   def trace_each tag, iter #, &block
@@ -141,11 +143,16 @@ class Logger < Logger
 
 private
 
+  # Creates a string of vars log:
+  #    message text [var1] [var2] [var3]
   def build_var *args
     "#{args[0]} [#{args[1..args.length].join('] [')}]"
   end
 
+  # Creates a string of pairs to log (useful for hashes too)
+  #    var1 [val1] var2 [val2]
   def build_pair *args
+    args = args.to_a unless args.respond_to? :each_slice
     args.each_slice(2).map{|name,var| "#{name} [#{var}]" }.join(' ')
   end
 
@@ -156,13 +163,20 @@ end
 # with some helper var loggers
 module Log
 
-  # Module instance variable to hold the logger
-  @log = nil
-
   # Default output
   DefaultIO = STDOUT
 
-  # returns the singleton
+  # create a new logger
+  def self.create io = DefaultIO, level = Deployable::Logger::INFO
+    l = Deployable::Logger.new io
+    l.level = level
+    l
+  end
+
+  # Module instance variable to hold the singleton logger instance
+  @log = Log.create
+
+  # returns the singleton for class includes
   def log
     Deployable::Log.log
   end
@@ -174,16 +188,14 @@ module Log
     @log = l
   end
 
-  # create a new logger
-  def self.create io = DefaultIO, level = Deployable::Logger::INFO
-    l = Deployable::Logger.new io
-    l.level = level
-    l
+  # replace the logger with a new target
+  def self.level int
+    @log.level = int
   end
 
-  # return the singleton or create it
+  # return the singleton or creates it
   def self.log
-    @log ||= create
+    @log ||= Log.create
   end
 
 end
