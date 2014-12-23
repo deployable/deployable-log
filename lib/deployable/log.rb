@@ -141,6 +141,22 @@ class Logger < Logger
     add( FATAL, nil, message )
   end
 
+
+  # Fatal and error to raise
+  def fatal_raise error, *args, &block
+    return if @level > FATAL
+    message = block_given? ? build_pair(yield) : build_pair(*args)
+    add( FATAL, nil, message )
+    raise error, message
+  end
+
+  def error_raise error, *args, &block
+    return if @level > ERROR
+    message = block_given? ? build_pair(yield) : build_pair(*args)
+    add( ERROR, nil, message )
+    raise error message
+  end
+
 private
 
   # Creates a string of vars log:
@@ -174,7 +190,7 @@ module Log
   end
 
   # Module instance variable to hold the singleton logger instance
-  @log = Log.create
+  @log = Log.create 
 
   # returns the singleton for class includes
   def log
@@ -194,7 +210,7 @@ module Log
   end
 
   # return the singleton or creates it
-  def self.log
+  def self.log 
     @log ||= Log.create
   end
 
