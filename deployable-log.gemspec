@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["matt@deployable.co"]
   spec.summary       = %q{Log singleton}
   spec.description   = %q{Log singleton}
-  spec.homepage      = ""
+  spec.homepage      = "http://deployable.co"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")

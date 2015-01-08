@@ -183,6 +183,7 @@ module Log
   DefaultIO = STDOUT
 
   # create a new logger
+  # Doesn't impact the singleton
   def self.create io = DefaultIO, level = Deployable::Logger::INFO
     l = Deployable::Logger.new io
     l.level = level
@@ -197,19 +198,19 @@ module Log
     Deployable::Log.log
   end
 
-  # replace the logger with a new target
-  def self.replace( io )
-    l = Deployable::Logger.new io
-    l.level = @log.level
+  # Replace the singleton logger with a new target/level
+  def self.replace io = DefaultIO, level = @log.level
+    l = Deployable::Logger.new io, level
+    #l.level = @log.level
     @log = l
   end
 
-  # replace the logger with a new target
+  # Replace the logger with a new target
   def self.level int
     @log.level = int
   end
 
-  # return the singleton or creates it
+  # Return the singleton or create it
   def self.log 
     @log ||= Log.create
   end
