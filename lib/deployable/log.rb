@@ -175,8 +175,8 @@ private
 end
 
 
-# A singleton interface to logger with 
-# with some helper var loggers
+# A singleton interface to the Deployable logger
+# 
 module Log
 
   # Default output

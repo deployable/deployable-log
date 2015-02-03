@@ -1,6 +1,7 @@
 # Deployable::Log
 
-TODO: Write a gem description
+Deployable::Log creates a singleton log instance that will be accessible
+via the `log` function where ever you require `deployable/log`
 
 ## Installation
 
@@ -14,17 +15,22 @@ And then execute:
 
     $ bundle
 
-Or install it yourself as:
+Or install it yourself
 
     $ gem install deployable-log
 
 ## Usage
 
-TODO: Write usage instructions here
+    require 'deplyoable/log'
+
+    include Deployable::Log
+
+    log.info "all the information"
+
 
 ## Contributing
 
-1. Fork it ( https://github.com/[my-github-username]/deployable-log/fork )
+1. Fork it ( https://github.com/deployable/deployable-log/fork )
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
