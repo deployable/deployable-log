@@ -1,39 +1,32 @@
-require 'deployable/log'
+require 'spec_helper'
 
-
-
-
-describe Deployable::Log do
+describe 'Deployable::Log module include' do
 
   describe 'simple' do
 
     before :all do
 
-      class Test
-        # logger for instance of the class
+      class TestThis
+        # logger for instance of this class and the class instance itself
         include Deployable::Log
-        class << self
-          # logger for the class instance
-          include Deployable::Log
-        end
       end
 
       @io  = StringIO.new
       @log = Deployable::Log.log
-      Deployable::Log.replace @io
+      Deployable::Log.replace_log @io
     end
 
     it 'has a class logger' do
-      expect( Test.log ).to  be_a Deployable::Logger 
+      expect( TestThis.log ).to  be_a Deployable::Logger 
     end
 
     it 'has an instance logger' do
-      expect( Test.new.log ).to  be_a Deployable::Logger 
+      expect( TestThis.new.log ).to  be_a Deployable::Logger 
     end
 
     it 'class logger goes into instance logger' do
-      Test.new.log.info 'something'
-      Test.log.info 'otherthing'
+      TestThis.new.log.info 'something'
+      TestThis.log.info 'otherthing'
       expect( @io.string ).to  match( /.+?: something\n.+?: otherthing\n/m  )
     end
 
