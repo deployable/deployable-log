@@ -185,7 +185,8 @@ module Deployable
   module Log
 
     # Default output
-    DefaultIO = STDOUT
+    #DefaultIO = STDOUT
+    DefaultIO = $stdout
 
 
     class << self
