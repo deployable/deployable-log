@@ -21,11 +21,11 @@ Or install it yourself
 
 ## Usage
 
-    require 'deplyoable/log'
-
+    require 'deployable/log'
     include Deployable::Log
 
     log.info "all the information"
+    log.error "oh no!"
 
 
 ## Contributing
